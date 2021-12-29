@@ -252,12 +252,15 @@ var cursor_controller = (()=>{
         let leave = new Audio("sounds/70.mp3");
         leave.play();
     })
+    let bgm = new Audio("sounds/bgm.mp3");
+    bgm.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    //chrome doesnt allow autoplay
+    let autoplay = function(e){
+        bgm.play();
+        document.removeEventListener("mousedown",autoplay);
+    }
+    document.addEventListener("mousedown",autoplay);
 })();
-
-var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-if (!isChrome){
-    document.querySelector('#iframeAudio').remove()
-}
-else {
-    document.querySelector('#playAudio').remove() // just to make sure that it will not have 2x audio in the background 
-}
