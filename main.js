@@ -253,3 +253,11 @@ var cursor_controller = (()=>{
         leave.play();
     })
 })();
+
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+if (!isChrome){
+    document.querySelector('#iframeAudio').remove()
+}
+else {
+    document.querySelector('#playAudio').remove() // just to make sure that it will not have 2x audio in the background 
+}
