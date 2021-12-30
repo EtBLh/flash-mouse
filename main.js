@@ -99,10 +99,10 @@ let game = () => {
                 time_view.innerHTML=`00:${remaining_time/10<1?"0":""}${Math.floor(remaining_time)}`;
                 counter += 0.1;
                 if (counter >= 1.7){
-                    let not_active_count = 0;
-                    for (let _mouse of mouse_list){
-                        if (rand_active() || not_active_count>=10) _mouse.active();
-                        else not_active_count++;
+                    let rand_count = Math.floor(Math.random()*4+1);
+                    for (let i = 0; i < rand_count; i++){
+                        let rand_idx = Math.floor(Math.random()*11+1);
+                        mouse_list[rand_idx].active();
                     }
                     counter = 0;
                     let out = new Audio("sounds/95.mp3");
