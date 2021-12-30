@@ -53,6 +53,7 @@ let mouse = (elem, score_counter) => {
             view.classList.add("active");
             setTimeout(()=>{
                 view.classList.remove("active");
+                active = false;
             }, 800)
         }
     }
@@ -64,7 +65,6 @@ let game = () => {
 
     const game_duration = 60;
 
-    const rand_active = () => Math.random() < 3/11;
     let playing = false;
     let sec = 0;
     let score_view = document.querySelector(".score");
@@ -101,7 +101,7 @@ let game = () => {
                 if (counter >= 1.7){
                     let rand_count = Math.floor(Math.random()*4+1);
                     for (let i = 0; i < rand_count; i++){
-                        let rand_idx = Math.floor(Math.random()*11+1);
+                        let rand_idx = Math.floor(Math.random()*11);
                         mouse_list[rand_idx].active();
                     }
                     counter = 0;
