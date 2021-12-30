@@ -7,82 +7,41 @@
         }
         return temp_list;
     })();
-    var machine_top = document.querySelector("div.machine.element.top");
-    var machine_bottom = document.querySelector("div.machine.element.bottom");
-    let mach_an = animation(machine_top, machine_bottom, img_list, 10000/45, -1, null);
-    mach_an.play();
 })();
 
 //mouse closure
 let mouse = (elem, score_counter) => {
-    var mtop = document.createElement("div");
-    var mbottom = document.createElement("div");
+    var active = false;
     var click_box = document.createElement("div");
-    mtop.classList.add("view-top");
-    mbottom.classList.add("view-bottom");
     click_box.classList.add("clickbox");
-    elem.appendChild(mtop);
-    elem.appendChild(mbottom);
     elem.appendChild(click_box);
-    let active = false;
-    const active_list = (()=>{
-        var temp_list = [];
-        for (let i = 2; i <= 37; i++){
-            temp_list.push(`url(sprites/DefineSprite_103/${i}.png)`);
-        }
-        return temp_list; 
-    })();
-    const hitted_list = (()=>{
-        var temp_list = [];
-        for (let i = 38; i <= 74; i++){
-            temp_list.push(`url(sprites/DefineSprite_103/${i}.png)`);
-        }
-        return temp_list; 
-    })();
-    const animate_duration = 1000;
-
-    let act_an = animation(mtop, mbottom, active_list, 
-        animate_duration/active_list.length, 1,
-        () => {
-            active = false;
-        });
-    let hitted_an = animation(mtop, mbottom, hitted_list, 
-            animate_duration/hitted_list.length, 1,null);
     
-    var smoke_list = (() => {
-        var temp_list = [];
-        for (let i = 1; i <= 8; i++){
-            temp_list.push(`url(sprites/DefineSprite_101/${i}.png)`);
-        }
-        return temp_list;
-    })();
+    var view = document.createElement("div");
+    view.classList.add("view");
+    elem.appendChild(view);
 
     //when hitted
     click_box.addEventListener("mousedown", e=>{
         if (!active) return;
         active = false;
-        act_an.interupt(true);
-        hitted_an.play();
+        view.classList.remove("active");
+        view.classList.add("hit");
+        setTimeout(()=>{
+            view.classList.remove("hit");
+        },1000);
         score_counter.add();
 
-        //effect animation
-        let smoke_top = document.createElement("div");
-        let smoke_bottom = document.createElement("div");
-        smoke_top.classList.add("smoke-effect");
-        smoke_top.classList.add("top");
-        smoke_top.classList.add("element")
-        smoke_bottom.classList.add("smoke-effect");
-        smoke_bottom.classList.add("bottom");
-        smoke_bottom.classList.add("element");
-        smoke_top.style["left"] = smoke_bottom.style["left"] = e.clientX-(window.innerWidth-frame.clientWidth)/2 + "px";
-        smoke_top.style["top"] = smoke_top.style["top"] = e.clientY-(window.innerHeight-frame.clientHeight)/2 + "px";
-        frame.appendChild(smoke_bottom);
-        frame.appendChild(smoke_top);
-        let effect = animation(smoke_top,smoke_bottom,smoke_list,300/8,1,()=>{
-            frame.removeChild(smoke_top);
-            frame.removeChild(smoke_bottom);
-        });
-        effect.play();
+        // effect animation
+        let frame = document.querySelector("#frame");
+        let smoke = document.createElement("div");
+        smoke.classList.add("smoke-effect");
+        smoke.classList.add("element")
+        smoke.style["left"] = e.clientX-(window.innerWidth-frame.clientWidth)/2 + "px";
+        smoke.style["top"] = e.clientY-(window.innerHeight-frame.clientHeight)/2 + "px";
+        frame.appendChild(smoke);
+        setTimeout(()=>{
+            frame.removeChild(smoke);
+        },300);
 
 
         let hit = new Audio("sounds/102.mp3");
@@ -91,7 +50,10 @@ let mouse = (elem, score_counter) => {
     return {
         active: function(){
             active = true;
-            act_an.play();
+            view.classList.add("active");
+            setTimeout(()=>{
+                view.classList.remove("active");
+            }, 800)
         }
     }
 }
@@ -165,58 +127,36 @@ let game = () => {
 
 var cursor_controller = (()=>{
     let star_cursor = document.querySelector(".star-cursor");
-    let star_cursor_top = document.querySelector(".star-cursor>.view-top");
-    let star_cursor_bottom = document.querySelector(".star-cursor>.view-bottom");
+    let hammer_cursor = document.querySelector(".hammer-cursor");
+    let hammer_cursor_view = document.querySelector(".hammer-cursor>.view");
 
     let frame = document.querySelector("#frame");
     frame.addEventListener("mousemove", e => {
         star_cursor.style["left"] = e.clientX-(window.innerWidth-frame.clientWidth)/2 + "px";
         star_cursor.style["top"] = e.clientY-(window.innerHeight-frame.clientHeight)/2 + "px";
-    })
-    var star_cur_list = (() => {
-        var temp_list = [];
-        for (let i = 1; i <= 40; i++){
-            temp_list.push(`url(sprites/DefineSprite_60/${i}.png)`);
-        }
-        return temp_list;
-    })();
-    let star_an = animation(star_cursor_top, star_cursor_bottom, star_cur_list, 1000/40,-1, null);
-    star_an.play();
-
-    let hammer_cursor_top = document.querySelector(".hammer-cursor>.view-top");
-    let hammer_cursor_bottom = document.querySelector(".hammer-cursor>.view-bottom");
-    let hammer_cursor = document.querySelector(".hammer-cursor");
-
-    frame.addEventListener("mousemove", e => {
         hammer_cursor.style["left"] = e.clientX-(window.innerWidth-frame.clientWidth)/2 + "px";
         hammer_cursor.style["top"] = e.clientY-(window.innerHeight-frame.clientHeight)/2 + "px";
     })
-    var hammer_cur_list = (() => {
-        var temp_list = [];
-        for (let i = 1; i <= 7; i++){
-            temp_list.push(`url(sprites/DefineSprite_132/${i}.png)`);
-        }
-        return temp_list;
-    })();
-    let hammer_an = animation(hammer_cursor_top, hammer_cursor_bottom, hammer_cur_list, 200/7,1, null);
-    hammer_an.play();
 
     frame.addEventListener("mousedown", e => {
-        hammer_an.play();
+        hammer_cursor_view.classList.remove("punching");
+        hammer_cursor_view.classList.add("punching");
+        setTimeout(()=>{
+            hammer_cursor_view.classList.remove("punching");
+        },300);
     });
 
     return {
         toggle_star: function(){
-            hammer_cursor.style["opacity"] = 0;
-            star_cursor.style["opacity"] = 1;
+            hammer_cursor.style["display"] = "none";
+            star_cursor.style["display"] = "";
         },
         toggle_hammer: function(){
-            hammer_cursor.style["opacity"] = 1;
-            star_cursor.style["opacity"] = 0;
+            hammer_cursor.style["display"] = "";
+            star_cursor.style["display"] = "none";
         }
     }
 })();
-
 
 //main
 (() => {

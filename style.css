@@ -59,21 +59,23 @@ html, body{
 }
 
 .machine{
-    background-image: url("sprites/DefineSprite_89/1.svg");
-    background-size: cover;
-    width: 120%;
+    background-image:  url("sprite/machine.png");
+    background-size: calc(800px * 1.4);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    /* width: 1539px;
+    height: 807px; */
+    width: 140%;
     height: 100%;
     top: -10%;
     left: 50%;
-    transform: translate(-55%,0);
-    /* -webkit-animation: mach_bg 5s linear infinite; */
-    /* animation: mach_bg 5s linear infinite; */
-}
-.machine.top{
+    transform: translate(-45%,0);
     z-index: 101;
+    animation: mach_bg 5s infinite steps(45);
 }
-.machine.bottom{
-    z-index: 100;
+
+@keyframes mach_bg {
+    100%{background-position: 0 -26428px};
 }
 
 .plant{
@@ -136,22 +138,32 @@ html, body{
     /* border: red 2px solid; */
 }
 
-.mouse>.view-top, .mouse>.view-bottom{
+.mouse>.view{
     transform: scaleX(0.75) scaleY(0.75);
     position: absolute;
     left: 0;
     top: 0;
-    background-image: url(sprites/DefineSprite_103/1.png);
+    background-image: url(sprite/mouse.png);
+    background-position: 0 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index:200;
 }
 
-.mouse>.view-top{
-    z-index: 200;
+.mouse>.view.active{
+    animation: active-mouse 1s steps(36) 1;
 }
-.mouse>.view-bottom{
-    z-index: 199;
+.mouse>.view.hit{
+    animation: hit-mouse 1s steps(29) 1;
+}
+@keyframes active-mouse {
+    from{background-position: 0 -397px ;}
+    to{background-position: 0 -14689px;}
+}
+@keyframes hit-mouse {
+    from{background-position: 0 -15880px ;}
+    to{background-position: 0 -27393px;}
 }
 
 .mouse#m11{
@@ -231,57 +243,46 @@ html, body{
     pointer-events: none;
 }
 
-.star-cursor>.view-top{
+.star-cursor>.view{
     position: absolute;
     left: 0;
     top: 0;
     z-index: 2000;
     width: 100%;
     height: 100%;
-    background-image: url(sprites/DefineSprite_60/1.png);
+    background-image: url(sprite/star.png);
+    background-position: 0 0;
+    animation: star-rotate 1s steps(38) infinite;
 }
-
-.star-cursor>.view-bottom{
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1999;
-    width: 100%;
-    height: 100%;
-    background-image: url(sprites/DefineSprite_60/1.png);
+@keyframes star-rotate {
+    to{background-position: 0 -3724px;}
 }
 
 .hammer-cursor{
     z-index: 3000;
     width: 200px;
-    height: 150px;
+    height: 140px;
     transform: translate(-25%, -60%);
     overflow: visible;
     pointer-events: none;
 }
 
-.hammer-cursor>.view-top{
+.hammer-cursor>.view{
     position: absolute;
     left: 0;
     top: 0;
     z-index: 3000;
     width: 100%;
     height: 100%;
-    background-image: url(sprites/DefineSprite_132/1.png);
+    background-image: url(sprite/hammer.png);
+    background-position: 0 0;
     background-repeat: no-repeat;
-    /* transform: scaleX(2) scaleY(2); */
 }
-
-.hammer-cursor>.view-bottom{
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2999;
-    width: 100%;
-    height: 100%;
-    background-image: url(sprites/DefineSprite_132/1.png);
-    background-repeat: no-repeat;
-    /* transform: scaleX(2) scaleY(2); */
+.hammer-cursor>.view.punching{
+    animation: punching 0.3s steps(6) 1;
+}
+@keyframes punching {
+    to{background-position: 0 -858px;}
 }
 
 .start-screen{
@@ -493,15 +494,13 @@ html, body{
     transform: translate(-50%, -60%);
     width: 188px;
     height: 128px;
-    background-image: url(sprites/DefineSprite_101/1.png);
+    background-image: url(sprite/smoke.png);
+    background-position: 0 0;
     background-repeat: no-repeat;
     background-size: contain;
+    animation: smoke 1 0.3s steps(6);
 }
 
-.smoke-effect.top{
-    z-index:1300;
-}
-
-.smoke-effect.bottom{
-    z-index:1299;
+@keyframes smoke {
+    to{background-position: 0 -774px;}
 }
